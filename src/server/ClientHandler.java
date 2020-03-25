@@ -23,7 +23,7 @@ public class ClientHandler {
             this.server = server;
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
-            socket.setSoTimeout(15000);
+            socket.setSoTimeout(120000);
 
             new Thread(() -> {
                 try {
@@ -39,7 +39,7 @@ public class ClientHandler {
                                     .registration(token[1], token[2], token[3]);
                             if (b) {
                                 sendMsg("Регистрация прошла успешно");
-                                socket.setSoTimeout(0);
+                                socket.setSoTimeout(120000); //Добавим время на авторизацию
                             } else {
                                 sendMsg("Логин или ник уже занят");
                             }
@@ -62,7 +62,7 @@ public class ClientHandler {
                                     nick = newNick;
                                     server.subscribe(this);
                                     System.out.println("Клиент " + nick + " прошел аутентификацию");
-                                    socket.setSoTimeout(0);
+                                    socket.setSoTimeout(0); //При авторизации обнуляем таймер
                                     break;
                                 } else {
                                     sendMsg("С этим логином уже авторизовались");
